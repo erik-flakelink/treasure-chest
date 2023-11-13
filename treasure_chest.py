@@ -1,11 +1,17 @@
 #TREASURE CHEST FILE MANAGER#
 #             BY ERIK (c) 2023            #
 
+
 saved = []
 
+
+FUNCTIONS = [
+    "d",
+    "cd ..",
+    "cd"
+]
 print("Starting Treasure Chest...")
 print("Importing Extensions...")
-
 try:
     import os
     from tkinter import *
@@ -14,8 +20,6 @@ try:
     
     print("Successfully Loaded Extensions")
 except ImportError as error:
-
-    
     #Get values [17] to [-2] in Import Error
     error = str(error)
     error = list(error)
@@ -37,11 +41,15 @@ except ImportError as error:
     print("THE PROGRAM WILL NOW SELF-DESTRUCT.")
     exit()
 
-FUNCTIONS = [
-    "d",
-    "cd ..",
-    "cd"
-]
+def assist():
+    for i in FUNCTIONS:
+        print("\n\n")
+        if i == "d":
+            print(i, "Returns with the current directory you are in.", sep=":")
+        elif i == "cd ..":
+            print(i, "Escapes out of the current directory:\n[C:\Dave\Desktop\School --> C:\Dave\Desktop]", sep=":")
+        elif i == "cd":
+            print(i, "Changes the directory [Opens a new window]", sep=":")
 
 def overwrite_directory():
     global Label2
@@ -69,6 +77,9 @@ def refresh():
     global Btn3
     Btn3 = Button(TreasureChest, text="Save", command=save)
     Btn3.grid(column=3, row=0)
+    global Btn4
+    Btn4 = Button(TreasureChest, text="Help", command=assist)
+    Btn4.grid(column=4, row=0)
     global Label1
     Label1 = Label(TreasureChest, text="")
     Label1.grid()
@@ -76,7 +87,7 @@ def refresh():
     global btnX
     for i in saved:
         btnX = Button(TreasureChest, text=i, command=lambda: find(i, "BUTTON"))
-        btnX.grid()
+        btnX.grid(column=1, row=1)
 
     TreasureChest.mainloop()
 
@@ -108,7 +119,7 @@ def find(i, a=None):
         elif i == "cd":
              global SubTreasureChest
              SubTreasureChest = Tk()
-             SubTreasureChest.title("SubTreasure Chest")
+             SubTreasureChest.title('"cd" | TreasureChests')
              global Entr2
              Entr2 = Entry(SubTreasureChest, width=45,)
              Entr2.insert(0, os.getcwd()) 
@@ -116,8 +127,8 @@ def find(i, a=None):
              global Label2
              Label2 = Label(SubTreasureChest, text="Insert CD to Change Into")
              Label2.grid()
-             Btn3 = Button(SubTreasureChest, text="Change", command=overwrite_directory)
-             Btn3.grid(column=3, row=0)
+             Btn5 = Button(SubTreasureChest, text="Change", command=overwrite_directory)
+             Btn5.grid(column=3, row=0)
              SubTreasureChest.mainloop()
 def save():
     if Entr.get() in FUNCTIONS:
